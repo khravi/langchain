@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
 from langchain_core.prompts import PromptTemplate
+from langchain_core.prompts import ChatPromptTemplate
 
 # Check OpenAI API key is set
 load_dotenv()  # Load environment variables from .env file
@@ -16,16 +17,20 @@ else:
 # initiate the OpenAI LLM
 llm_openai = ChatOpenAI(model="gpt-5.4-mini",temperature=0)
 
-#get input from user
-user_input = input("Enter a country name: ")
+# define a chat prompt template
+prompt_template = ChatPromptTemplate.from_messages([
+    ("system", "You are a {tone} assistant."),
+    ("user", "Write fun facts about {topic}.")
+])
 
-# Define a prompt template
-template = "What is the capital of {country}?"
-prompt = PromptTemplate(template=template, input_variables=["country"])
+# Get input from user (tone and topic)
+tone = input("Enter the tone for the assistant (e.g., friendly, formal): ")
+topic = input("Enter a topic for the fun facts: ")
 
-# Format the prompt with a specific country
-formatted_prompt = prompt.format(country=user_input)
+# format the prompt
+ready_prompt =  prompt_template.format(tone=tone, topic=topic)
 
-response = llm_openai.invoke([HumanMessage(content=formatted_prompt)]).content
+# invoke the LLM with the formatted prompt
+response = llm_openai.invoke(ready_prompt).content
+
 print(response)
-
