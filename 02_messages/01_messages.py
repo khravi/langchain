@@ -1,6 +1,6 @@
-from langchain_openai import ChatOpenAI
 import os
 from dotenv import load_dotenv 
+from langchain_openai import ChatOpenAI
 from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
 
 # Check OpenAI API key is set
@@ -26,5 +26,7 @@ my_messages =[
 ]
 
 # Invoke the LLM with a list of messages
-response = llm_openai.invoke(my_messages).content
+response = llm_openai.invoke(my_messages).content #AIMessage is used to represent the assistant's response
 print(response)
+
+# .content is used to extract the text content from the AIMessage response.
