@@ -1,4 +1,4 @@
-markdown_content = """# LangChain Chains Overview
+# LangChain Chains Overview
 
 ## What is a Chain?
 In LangChain, a **chain** is a sequence of automated actions strung together to accomplish a specific AI task. It acts as the core mechanism that connects a Large Language Model (LLM) with other components—like data sources, prompts, and parsers—allowing information to flow smoothly from a user's input to the final structured output.
