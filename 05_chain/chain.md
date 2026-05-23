@@ -31,3 +31,47 @@ chain = prompt | model | parser
 result = chain.invoke({"topic": "data engineers"})
 print(result)
 ```
+
+markdown_content = """# LangChain: RunnableSequence
+
+## Core Concept
+* A **RunnableSequence** is the underlying class in LangChain Expression Language (LCEL) that makes chaining possible. 
+* When you use the pipe operator (`|`) to connect components (like a prompt and a model), LangChain is actually creating a `RunnableSequence` under the hood.
+* Its primary job is to take the output of one component (a "Runnable") and pass it seamlessly as the input to the next component in the chain.
+
+## Key Characteristics
+* **The Universal Interface:** Because a `RunnableSequence` is itself a Runnable, it inherits all standard execution methods. You can call `.invoke()`, `.batch()`, `.stream()`, or their asynchronous counterparts (`.ainvoke()`, etc.) directly on the sequence.
+* **Composability:** You can chain multiple `RunnableSequence` objects together to build highly complex, nested workflows.
+* **Automatic Type Casting:** It attempts to automatically format dictionaries or strings into the specific input types expected by the next step (e.g., formatting a string into a PromptValue).
+
+## Example Implementation
+
+Here is how a `RunnableSequence` is created and executed in practice. While you can explicitly instantiate the class, using the pipe (`|`) operator is the standard and most readable approach.
+
+
+```python
+from langchain_core.prompts import PromptTemplate
+from langchain_openai import ChatOpenAI
+from langchain_core.output_parsers import StrOutputParser
+
+# 1. Define the individual runnables
+prompt = PromptTemplate.from_template("What is a good name for a company that makes {product}?")
+model = ChatOpenAI(model="gpt-4")
+parser = StrOutputParser()
+
+# 2. Create the RunnableSequence 
+# The pipe operator (|) automatically wraps these into a RunnableSequence
+runnable_sequence = prompt | model | parser
+
+# Note: The above line is exactly equivalent to:
+# from langchain_core.runnables import RunnableSequence
+# runnable_sequence = RunnableSequence(prompt, model, parser)
+
+# 3. Execute the sequence using standard runnable methods
+# The dictionary is passed to the prompt, the prompt's output goes to the model, 
+# and the model's output goes to the parser.
+result = runnable_sequence.invoke({"product": "eco-friendly water bottles"})
+
+print(result)
+
+```
