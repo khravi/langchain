@@ -1,4 +1,5 @@
 import os
+from urllib import response
 from dotenv import load_dotenv 
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
@@ -41,9 +42,9 @@ prompt_template = ChatPromptTemplate.from_messages(
 response = llm_with_structured.invoke(prompt_template.format(movie_title="KGF"))
 
 # The response is now a Movie object with structured data
-print(f"Title: {response.title}")
-print(f"Director: {response.director}")
-print(f"Release Year: {response.release_year}")
+print("Title::", response.title)
+print("Director::", response.director)
+print("Release Year::", response.release_year)
 
 # parse the response into a Movie object
 print(response)
