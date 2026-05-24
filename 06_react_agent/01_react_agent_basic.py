@@ -55,17 +55,17 @@ model = ChatOpenAI(
 
 agent = create_agent(model=model, tools=tools)
 
-# response = agent.invoke({"messages": [{"role": "user", "content": "When was SpaceX's last launch and how many days ago was that from this instant?"}]})
+response = agent.invoke({"messages": [{"role": "user", "content": "When was SpaceX's last launch and how many days ago was that from this instant?"}]})
 
-# print(response)
+print(response)
 
-question = {"messages": [{"role": "user", "content": "When was SpaceX's last launch and how many days ago was that from this instant?"}]}
+# question = {"messages": [{"role": "user", "content": "When was SpaceX's last launch and how many days ago was that from this instant?"}]}
 
-events = agent.stream(
-    question,
-    stream_mode="values",
-)
+# events = agent.stream(
+#     question,
+#     stream_mode="values",
+# )
 
-for event in events:
-    event["messages"][-1].pretty_print()
+# for event in events:
+#     event["messages"][-1].pretty_print()
 
